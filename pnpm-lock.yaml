@@ -14,6 +14,9 @@ dependencies:
   zod:
     specifier: ^3.22.2
     version: 3.22.2
+  zod-fixture:
+    specifier: ^2.5.0
+    version: 2.5.0(zod@3.22.2)
 
 devDependencies:
   typescript:
@@ -59,6 +62,15 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
+
+  /zod-fixture@2.5.0(zod@3.22.2):
+    resolution: {integrity: sha512-lMQcUI5RC9zdkU26RUaOTDsUo1xWHEHtkVrERn6Cs/sRe+s/0qzltHQlRZMwYuvGh5SGPRI3Xy4eOToVJCj9sQ==}
+    peerDependencies:
+      zod: '>=3.0.0'
+    dependencies:
+      randexp: 0.5.3
+      zod: 3.22.2
+    dev: false
 
   /zod@3.22.2:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}

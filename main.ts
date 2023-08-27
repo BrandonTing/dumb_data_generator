@@ -1,11 +1,12 @@
 import { SerializedSchema, genZodSchema } from "./src/schema/mod.ts";
-import { generateMock } from '@anatine/zod-mock';
+import { createFixture } from 'zod-fixture';
 
 // expected output 
 const input = [
     {
         name: "userId",
         type: "number",
+        optional: true
     },
     {
         name: "name",
@@ -43,6 +44,10 @@ const input = [
 ] satisfies SerializedSchema;
 
 const inputSchema = genZodSchema(input);
-console.log(generateMock(inputSchema, {seed: 1}))
-console.log(generateMock(inputSchema))
-console.log(generateMock(inputSchema, {seed: 1}))
+console.log(createFixture(inputSchema))
+console.log(createFixture(inputSchema))
+console.log(createFixture(inputSchema))
+console.log(createFixture(inputSchema))
+console.log(createFixture(inputSchema))
+console.log(createFixture(inputSchema))
+console.log(createFixture(inputSchema))

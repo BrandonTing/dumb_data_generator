@@ -16,7 +16,8 @@ export type SerializedSchema = Array<{
     name: string,
     type: keyof typeof ZodMap, 
     children?: keyof typeof ZodMap,
-    parent?: string
+    parent?: string,
+    optional?: boolean
 }>
 
 function getChildrenSchema (parent: string, serializedSchema: SerializedSchema): SerializedSchema  {
@@ -44,21 +45,31 @@ export function genZodSchema(serializedSchema: SerializedSchema): z.Schema {
         if(cur.parent) {
             return pre
         }
+        let schema: z.Schema
         if(cur.type === 'array' ) {
             if(cur.children) {
                 if(cur.children === 'object' || cur.children ==='array') {
                     const children = getChildrenSchema(cur.name, serializedSchema.slice(i))
-                    return Object.assign(pre, {[cur.name]: z.array(genZodSchema(children))}) 
+                    schema = z.array(genZodSchema(children))
+                } else {
+                    schema = ZodMap.array(ZodMap[cur.children])
                 }
-                return Object.assign(pre, {[cur.name]:ZodMap.array(ZodMap[cur.children])}) 
+            } else {
+                return pre
             }
-            return pre
-        }
-        if(cur.type === 'object') {
+        } else if(cur.type === 'object') {
             const children = getChildrenSchema(cur.name, serializedSchema.slice(i))
-            return Object.assign(pre, {[cur.name]: genZodSchema(children)}) 
+            schema = genZodSchema(children)
+        } else {
+            schema = ZodMap[cur.type]
         }
-        return Object.assign(pre, {[cur.name]: ZodMap[cur.type]}) 
+        if(schema) {
+            if(cur.optional) {
+                schema = schema.optional();                
+            }
+            return Object.assign(pre, {[cur.name]: schema}) 
+        }
+        return pre
     }, {}) 
     return z.object(objectBodySchema)
 }

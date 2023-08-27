@@ -13,8 +13,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@anatine/zod-mock": "^3.13.2",
-    "@faker-js/faker": "^8.0.2",
-    "zod": "^3.22.2"
+    "zod": "^3.22.2",
+    "zod-fixture": "^2.5.0"
   }
 }
