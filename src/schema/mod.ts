@@ -22,7 +22,10 @@ export type SerializedSchema = Array<{
 function getChildrenSchema (parent: string, serializedSchema: SerializedSchema): SerializedSchema  {
     function helper (parentName: string, schemas: SerializedSchema): SerializedSchema {
         const children: SerializedSchema =  schemas.filter(schema => schema.parent === parentName); 
-        const nestingChildren = children.map(child => helper(child.name, serializedSchema))
+        const nestingChildren = children.map(child => {
+            const sliceIdx = serializedSchema.findIndex(sch=> sch.name === child.name)
+            return helper(child.name, serializedSchema.slice(sliceIdx))
+        })
         return children.concat(...nestingChildren)    
     }
     return helper(parent, serializedSchema).map(child => {
@@ -37,14 +40,14 @@ function getChildrenSchema (parent: string, serializedSchema: SerializedSchema):
 export function genZodSchema(serializedSchema: SerializedSchema): z.Schema {
     const objectBodySchema: {
         [key: string]: z.Schema
-    } = serializedSchema.reduce((pre, cur) => {
+    } = serializedSchema.reduce((pre, cur, i) => {
         if(cur.parent) {
             return pre
         }
         if(cur.type === 'array' ) {
             if(cur.children) {
                 if(cur.children === 'object' || cur.children ==='array') {
-                    const children = getChildrenSchema(cur.name, serializedSchema)
+                    const children = getChildrenSchema(cur.name, serializedSchema.slice(i))
                     return Object.assign(pre, {[cur.name]: z.array(genZodSchema(children))}) 
                 }
                 return Object.assign(pre, {[cur.name]:ZodMap.array(ZodMap[cur.children])}) 
@@ -52,7 +55,7 @@ export function genZodSchema(serializedSchema: SerializedSchema): z.Schema {
             return pre
         }
         if(cur.type === 'object') {
-            const children = getChildrenSchema(cur.name, serializedSchema)
+            const children = getChildrenSchema(cur.name, serializedSchema.slice(i))
             return Object.assign(pre, {[cur.name]: genZodSchema(children)}) 
         }
         return Object.assign(pre, {[cur.name]: ZodMap[cur.type]}) 
