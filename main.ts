@@ -1,4 +1,4 @@
-import { SerializedSchema, genZodSchema } from "./src/schema/mod.ts";
+import { SerializedSchema, genZodSchema } from "./src/schema/mod";
 import { createFixture } from 'zod-fixture';
 
 // expected output 
