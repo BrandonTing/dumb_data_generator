@@ -4,6 +4,15 @@ import { createFixture } from 'zod-fixture';
 import { access, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { z } from 'zod';
 
+async function display<T>(isSaveToFile: boolean, data: T) {
+    if (isSaveToFile) {
+        await saveFilePrompt<T>(data);
+        return
+    }
+    console.log(data)
+
+}
+
 async function saveFilePrompt<T>(data: T) {
     const { filePath } = await inquirer.prompt<{
         filePath: string
@@ -27,13 +36,19 @@ async function saveFilePrompt<T>(data: T) {
         if (err) {
             mkdirSync(folder)
         }
-        if (typeof data !== 'object' || Array.isArray(data)) {
-            writeFileSync(endFilePath, `modile.exports = ${data}`)
+        let insertString = "modile.exports = "
+        if (typeof data === 'string') {
+            insertString += `"${data}"`
+        } else if (typeof data === 'object') {
+            insertString += JSON.stringify(data, null, 2)
         } else {
-            writeFileSync(endFilePath, `modile.exports = ${JSON.stringify(data, null, 2)}`)
+            insertString += data
         }
+        writeFileSync(endFilePath, insertString)
     })
 }
+
+
 
 async function main() {
     const initQuestion: QuestionCollection<{
@@ -57,10 +72,7 @@ async function main() {
     const { type, isSaveToFile } = await inquirer.prompt(initQuestion)
     if (type !== 'object' && type !== 'array') {
         const data = createFixture(ZodMap[type]);
-        if (isSaveToFile) {
-            return await saveFilePrompt<string | number | boolean>(data)
-        }
-        return
+        return await display(isSaveToFile, data)
     } else if (type === "array") {
         const { arrayChildType } = await inquirer.prompt<{
             arrayChildType: Exclude<keyof typeof ZodMap, "object" | "array">,
@@ -71,11 +83,7 @@ async function main() {
             type: "list"
         })
         const data = createFixture(z.array(ZodMap[arrayChildType]));
-        if (isSaveToFile) {
-            return await saveFilePrompt<Array<string | number | boolean>>(data)
-        }
-        console.log(data)
-        return
+        return await display(isSaveToFile, data)
     }
 
     const { schemaPath } = await inquirer.prompt<{
@@ -100,11 +108,7 @@ async function main() {
 
     ])
     const data = createFixture(genZodSchema(schemaPath));
-    if (isSaveToFile) {
-        await saveFilePrompt<object>(data);
-        return
-    }
-    console.log(data)
+    await display(isSaveToFile, data)
 }
 
 main()
