@@ -1,5 +1,11 @@
 # dumb_data_generator
 
+## 0.0.5
+
+### Patch Changes
+
+- 467840c: add release script
+
 ## 0.0.4
 
 ### Patch Changes
