@@ -1,5 +1,11 @@
 # dumb_data_generator
 
+## 0.0.4
+
+### Patch Changes
+
+- 931bb6f: add npm token
+
 ## 0.0.3
 
 ### Patch Changes
