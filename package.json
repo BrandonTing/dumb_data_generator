@@ -10,7 +10,8 @@
   "scripts": {
     "start": "ts-node script/script.ts",
     "lint": "tsc",
-    "build": "tsup script/script.ts --format cjs,esm --dts && tsup script/script.ts"
+    "build": "tsup script/script.ts --format cjs,esm --dts && tsup script/script.ts",
+    "release": "pnpm run build && changeset publish"
   },
   "keywords": [
     "zod",
