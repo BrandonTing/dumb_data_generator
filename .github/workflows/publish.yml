@@ -18,6 +18,7 @@ jobs:
         with: 
           node-version: 18.x
           cache: "pnpm"
+          
       - run: pnpm i --frozen-lockfile
       - name: CreateRelease Pull Request or Publish
         id: changesets
@@ -26,5 +27,6 @@ jobs:
           publish: pnpm run build
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
        
