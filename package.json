@@ -1,20 +1,31 @@
 {
-  "name": "fake_api_platform",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "dumb_data_generator",
+  "version": "0.0.1",
+  "description": "generate dummy data from given schema.",
+  "main": "dist/main.cjs",
+  "module": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "bin": "dist/script/script.js",
   "type": "module",
   "scripts": {
-    "start": "ts-node src/script/script.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node script/script.ts",
+    "lint": "tsc",
+    "build": "tsup script/script.ts --format cjs,esm --dts",
+    "build:cli": "tsup script/script.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "zod",
+    "typescript",
+    "dumb data generator"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@types/inquirer": "^9.0.3",
     "@types/node": "^20.5.8",
     "ts-node": "^10.9.1",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {

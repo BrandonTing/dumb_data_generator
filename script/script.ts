@@ -1,5 +1,6 @@
+#!/usr/bin/node
 import inquirer, { type QuestionCollection } from 'inquirer'
-import { SerializedSchema, ZodMap, genZodSchema, serializedSchema } from '../schema/mod';
+import { ZodMap, genZodSchema, serializedSchema, type SerializedSchema } from '../src/schema/mod';
 import { createFixture } from 'zod-fixture';
 import { access, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { z } from 'zod';
@@ -10,7 +11,6 @@ async function display<T>(isSaveToFile: boolean, data: T) {
         return
     }
     console.log(data)
-
 }
 
 async function saveFilePrompt<T>(data: T) {

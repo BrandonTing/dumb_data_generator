@@ -91,10 +91,13 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true, /* Skip type checking all .d.ts files. */
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
-    "src"
+    "src/*",
+    "./main.ts",
+    "script"
   ],
   "ts-node": {
     "esm": true,

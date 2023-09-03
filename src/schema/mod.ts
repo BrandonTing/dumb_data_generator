@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const string = z.string();
-export const number = z.number();
+export const positiveInt = z.number().int().positive();
 export const boolean = z.boolean();
 
 export const ZodMap = {
     string,
-    number,
+    positiveInt,
     boolean,
     object: z.object,
     array: z.array
@@ -22,7 +22,7 @@ export type SerializedSchema = Array<{
 
 const typesUnion = z.union([
     z.literal('string'),
-    z.literal('number'),
+    z.literal('positiveInt'),
     z.literal('boolean'),
     z.literal('object'),
     z.literal('array'),
