@@ -1,5 +1,11 @@
 # dumb_data_generator
 
+## 0.0.6
+
+### Patch Changes
+
+- bcf09ec: set package public
+
 ## 0.0.5
 
 ### Patch Changes
