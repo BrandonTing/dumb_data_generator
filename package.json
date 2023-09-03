@@ -13,6 +13,9 @@
     "build": "tsup script/script.ts --format cjs,esm --dts && tsup script/script.ts",
     "release": "pnpm run build && changeset publish"
   },
+  "exports": [
+    "./dist"
+  ],
   "keywords": [
     "zod",
     "typescript",
@@ -33,5 +36,8 @@
     "pino": "^8.15.0",
     "zod": "^3.22.2",
     "zod-fixture": "^2.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
