@@ -24,5 +24,7 @@ jobs:
         uses: changesets/action@v1
         with: 
           publish: pnpm run build && pnpm run build:cli
-  
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
        
