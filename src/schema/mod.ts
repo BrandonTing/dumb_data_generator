@@ -4,13 +4,22 @@ export const string = z.string();
 export const positiveInt = z.number().int().positive();
 export const boolean = z.boolean();
 
+
+const schemaOfKeys = z.union([
+    z.literal('string'),
+    z.literal('positiveInt'),
+    z.literal('boolean'),
+    z.literal('object'),
+    z.literal('array'),
+])
+
 export const ZodMap = {
     string,
     positiveInt,
     boolean,
     object: z.object,
     array: z.array
-} as const
+} satisfies Record<z.infer<typeof schemaOfKeys>, any>
 
 export type SerializedSchema = Array<{
     name: string,
@@ -20,19 +29,11 @@ export type SerializedSchema = Array<{
     optional?: boolean
 }>
 
-const typesUnion = z.union([
-    z.literal('string'),
-    z.literal('positiveInt'),
-    z.literal('boolean'),
-    z.literal('object'),
-    z.literal('array'),
-])
-
 export const serializedSchema = z.array(
     z.object({
         name: z.string(),
-        type: typesUnion,
-        children: typesUnion.optional(),
+        type: schemaOfKeys,
+        children: schemaOfKeys.optional(),
         parent: z.string().optional(),
         optiona: z.boolean().optional()
     })
